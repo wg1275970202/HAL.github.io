@@ -132,6 +132,9 @@
         <div id="rectangle"></div>
 
         <div class="container2">
+
+            <input type="range" id="sizeSlider" min="100" max="400" value="100">
+
             <div class="container_right">
                 <!-- Duration Input -->
                 <div>
@@ -168,13 +171,14 @@
                     <button id="startButton">Start</button>
                 </div>
             </div>
-
-            <div>
-                <svg width="500" height="200" id="waveformSVG" class="svgs"></svg>
-                <svg width="500" height="200" id="spectrumSVG" class="svgs"></svg>
-                <svg width="500" height="200" id="EEG_BandSVG" class="svgs"></svg>
-            </div>
         </div>
+
+        <div>
+            <svg width="500" height="200" id="waveformSVG" class="svgs"></svg>
+            <svg width="500" height="200" id="spectrumSVG" class="svgs"></svg>
+            <svg width="500" height="200" id="EEG_BandSVG" class="svgs"></svg>
+        </div>
+    </div>
     </div>
 
     <script>
@@ -308,7 +312,7 @@
                         "(θ + α)",
                         "(θ + α + β)"
                     ];
-                    const customTickFormat_3 = d => `${Names[d-1]}`;
+                    const customTickFormat_3 = d => `${Names[d - 1]}`;
                     let index = Array(1, 2, 3, 4, 5, 6, 7, 8, 9);
                     plot_(index, Indicators_band, EEG_BandSVG, customTickFormat_3, 'EEG_Band', 'Band', 'Magnitude');
 
@@ -437,6 +441,16 @@
             } catch (error) {
                 console.error('Error starting recording and flashing:', error);
             }
+        });
+
+
+        const sizeSlider = document.getElementById('sizeSlider');
+        const rectangle_ = document.getElementById('rectangle');
+
+        sizeSlider.addEventListener('input', () => {
+            const newSize = sizeSlider.value + 'px';
+            rectangle_.style.width = newSize;
+            rectangle_.style.height = newSize;
         });
     </script>
 </body>
