@@ -47,6 +47,10 @@
             padding: 20px;
         }
 
+        .slider-container {
+            margin-bottom: 20px; /* Adjusting margin below the slider */
+        }
+
         /* 右侧容器样式 */
         .container_right {
             display: flex;
@@ -133,7 +137,10 @@
 
         <div class="container2">
 
-            <input type="range" id="sizeSlider" min="100" max="400" value="100">
+            <div class="slider-container">
+                <label for="sizeSlider">Size slider (px):</label>
+                <input type="range" id="sizeSlider" min="100" max="400" value="100">
+            </div>
 
             <div class="container_right">
                 <!-- Duration Input -->
