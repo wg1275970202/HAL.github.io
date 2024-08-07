@@ -74,6 +74,9 @@
             font-size: 16px;
         }
 
+        input[type="number"] {
+            width: 50px;
+        }
 
         button {
             padding: 10px 20px;
@@ -119,7 +122,10 @@
             height: 15px;
             background-color: red;
             border-radius: 50%;
+            /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); 添加阴影 */
+            border: 2px solid #000000;  /* 添加边框 */
         }
+
 
         /* 图表标题和标签样式 */
         .x.axis-label,
@@ -139,7 +145,7 @@
     <h1>Flashing Rectangle and EEG Recording</h1>
 
     <div class="container">
-        
+
         <div class="container">
             <label for="sizeSlider">sizeSlider (px):</label>
             <input type="range" id="sizeSlider" min="100" step="50" max="500" value="100">
@@ -150,17 +156,17 @@
 
         <div class="container_right">
 
-            <!-- <div>
-                <label for="sizeSlider">Size slider (px):</label>
-                <input type="number" id="sizeSlider" min="100" max="400" value="100">
-            </div> -->
-
-
             <!-- Start Button -->
             <div>
+                <label for="R_color">R_color:</label>
+                <input type="number" id="R_color" min="0" step="5" max="255" value="255">
+                <label for="G_color">G_color:</label>
+                <input type="number" id="G_color" min="0" step="5" max="255" value="255">
+                <label for="B_color">B_color:</label>
+                <input type="number" id="B_color" min="0" step="5" max="255" value="255">
+
                 <button id="startButton">Start</button>
             </div>
-
 
 
             <!-- Duration Input -->
@@ -253,17 +259,24 @@
                 let intensity;
 
                 if (modeSwitch.checked) {
-                    intensity = (multipleFrequencies.reduce((sum, freq) => sum + Math.cos(2 * Math.PI * freq * elapsedTime), 0) / multipleFrequencies.length + 1) / 2 * 255;
+                    intensity = (multipleFrequencies.reduce((sum, freq) => sum + Math.cos(2 * Math.PI * freq * elapsedTime), 0) / multipleFrequencies.length + 1) / 2;
                 } else {
-                    intensity = (Math.cos(2 * Math.PI * frequency * elapsedTime) + 1) / 2 * 255;
+                    intensity = (Math.cos(2 * Math.PI * frequency * elapsedTime) + 1) / 2;
                 }
 
-                rectangle.style.backgroundColor = `rgb(${intensity}, ${intensity}, ${intensity})`;
+
+
+                const R = R_color.value;
+                const G = G_color.value;
+                const B = B_color.value;
+
+                console.log([R, G, B])
+                rectangle.style.backgroundColor = `rgb(${intensity * R}, ${intensity * G}, ${intensity * B})`;
 
                 if (elapsedTime < duration) {
                     requestAnimationFrame(flash);
                 } else {
-                    rectangle.style.backgroundColor = 'white';
+                    // rectangle.style.backgroundColor = 'white';
                 }
             }
             flash();
@@ -456,6 +469,7 @@
         startButton.addEventListener('click', async () => {
             audioChunks = [];
             updateFrequencies(); // 确保在点击开始时更新频率列表
+
             const duration = parseFloat(durationInput.value);
             const frequency = parseFloat(frequencyInput.value);
 
@@ -475,6 +489,21 @@
             rectangle_.style.width = newSize;
             rectangle_.style.height = newSize;
         });
+
+
+        // 定义一个函数来更新背景颜色
+        function updateBackgroundColor() {
+            const R = R_color.value;
+            const G = G_color.value;
+            const B = B_color.value;
+            rectangle.style.backgroundColor = `rgb(${R}, ${G}, ${B})`;
+        }
+
+        // 为每个颜色输入添加事件监听器
+        R_color.addEventListener('input', updateBackgroundColor);
+        G_color.addEventListener('input', updateBackgroundColor);
+        B_color.addEventListener('input', updateBackgroundColor);
+
     </script>
 </body>
 
