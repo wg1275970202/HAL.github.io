@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashing Rectangle and EEG Recording</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/d3/5.9.7/d3.js"></script> -->
+    <script src="src/d3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.0.0/math.min.js"></script>
+    <script async type="text/javascript" src="src/BLE_fun.js"></script>
+    <script async type="text/javascript" src="src/Stimulus.js"></script>
+    <script async type="text/javascript" src="src/analyze_fun.js"></script>
+</head>
+
+<body>
+
+
+    <h1>Flashing Rectangle and EEG Recording</h1>
+
+    <button id="connectButton">Connect to EEG-BLE</button>
+    <button id="sendLogicValueButton">Send Logic Value</button>
+    <div id="data">
+        <p id="adcValues">Real-time ADC Values(12bitd): </p>
+        <!-- <p id="marker">Marker: </p> -->
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="container">
+            <label for="sizeSlider">sizeSlider (px):</label>
+            <input type="range" id="sizeSlider" min="100" step="50" max="800" value="100">
+        </div>
+
+        <div id="rectangle"></div>
+
+
+        <div class="container_right">
+
+            <!-- Start Button -->
+            <div>
+                <label for="R_color">R:</label>
+                <input type="number" id="R_color" min="0" step="5" max="255" value="255">
+                <label for="G_color">G:</label>
+                <input type="number" id="G_color" min="0" step="5" max="255" value="255">
+                <label for="B_color">B:</label>
+                <input type="number" id="B_color" min="0" step="5" max="255" value="255">
+            </div>
+            <div>
+                <button id="startRecording">Start Recording</button>
+                <button id="startButton">Start Flashing</button>
+                <p id="LoggingLength">Logging Length: </p>
+            </div>
+
+
+            <!-- Duration Input -->
+            <div>
+                <label for="duration">Duration (s):</label>
+                <input type="number" id="duration" min="1" step="1" value="5">
+
+
+                <!-- Frequency Input -->
+
+                <label for="frequency">Freq (Hz):</label>
+                <input type="number" id="frequency" min="0" step="0.5" value="6">
+            </div>
+
+            <!-- Multiple Frequencies Toggle -->
+            <div>
+                <label for="modeSwitch">Multiple Frequencies:</label>
+                <input type="checkbox" id="modeSwitch">
+            </div>
+
+            <!-- Initial Frequency Input -->
+            <div>
+                <label for="F1">F1 (Hz):</label>
+                <input type="number" id="F1" value="12">
+
+
+                <!-- Frequency Increment Input -->
+
+                <label for="df">df(Hz):</label>
+                <input type="number" id="df" step="0.1" value="0.1">
+            </div>
+
+        </div>
+
+
+        <div>
+            <svg width="400" height="200" id="waveformSVG" class="svgs"></svg>
+            <svg width="400" height="200" id="spectrumSVG" class="svgs"></svg>
+            <svg width="800" height="200" id="EEG_BandSVG" class="svgs"></svg>
+        </div>
+    </div>
+    </div>
+</body>
+<script>
+    console.log('FFT:', typeof FFT !== 'undefined' ? 'Loaded' : 'Not Loaded');
+</script>
+</html>
